@@ -30,7 +30,7 @@ Parameters:
     Type: String
 
   DefaultCodeRepository:
-    Default: https://github.com/kmsarabu/rdspg-vector.git
+    Default: https://github.com/aws-samples/rds-postgresql-pgvector.git
     Type: String
 
   DBEngineVersion:
