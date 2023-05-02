@@ -291,7 +291,7 @@ Resources:
       StorageType: gp3
       StorageEncrypted: true
       BackupRetentionPeriod: 0
-      DeletionProtection: true
+      DeletionProtection: false
       PubliclyAccessible: false
       Tags:
         - Key: Name
