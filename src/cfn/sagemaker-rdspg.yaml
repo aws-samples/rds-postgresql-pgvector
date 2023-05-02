@@ -272,6 +272,24 @@ Resources:
         PasswordLength: 16
         ExcludeCharacters: '"@/\'
 
+  VPCSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: !Ref 'AWS::StackName'
+      SecurityGroupEgress:
+      - IpProtocol: -1
+        CidrIp: "0.0.0.0/0"
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 5432
+        ToPort: 5432
+        CidrIp: !Ref VpcCIDR
+        Description: 'Access to AppServer Host Security Group'
+      VpcId: !Ref VPC
+      Tags:
+      - Key: Name
+        Value: !Sub '${AWS::StackName}-DBSecurityGroup'
+
   DBInstance:
     Type: AWS::RDS::DBInstance
     Properties:
@@ -283,6 +301,8 @@ Resources:
       MasterUserPassword: !Join ['', ['{{resolve:secretsmanager:', !Ref RDSSecrets, ':SecretString:password}}' ]]
       DBParameterGroupName: !Ref RDSDBParameterGroup
       DBSubnetGroupName: !Ref DBSubnetGroup
+      VPCSecurityGroups: 
+        - !Ref VPCSecurityGroup
       AllowMajorVersionUpgrade: false
       AutoMinorVersionUpgrade: true
       EngineVersion: "15.2"
